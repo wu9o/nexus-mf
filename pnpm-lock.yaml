@@ -19,6 +19,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      react-router-dom:
+        specifier: ^7.7.1
+        version: 7.7.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@babel/core':
         specifier: ^7.18.6
@@ -47,6 +50,9 @@ importers:
       webpack-dev-server:
         specifier: ^4.9.3
         version: 4.15.2(webpack-cli@4.10.0)(webpack@5.101.0)
+      webpack-merge:
+        specifier: ^6.0.1
+        version: 6.0.1
 
   apps/main-app:
     dependencies:
@@ -90,6 +96,9 @@ importers:
       webpack-dev-server:
         specifier: ^4.9.3
         version: 4.15.2(webpack-cli@4.10.0)(webpack@5.101.0)
+      webpack-merge:
+        specifier: ^6.0.1
+        version: 6.0.1
 
   apps/settings:
     dependencies:
@@ -102,6 +111,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      react-router-dom:
+        specifier: ^7.7.1
+        version: 7.7.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@babel/core':
         specifier: ^7.18.6
@@ -130,6 +142,9 @@ importers:
       webpack-dev-server:
         specifier: ^4.9.3
         version: 4.15.2(webpack-cli@4.10.0)(webpack@5.101.0)
+      webpack-merge:
+        specifier: ^6.0.1
+        version: 6.0.1
 
   apps/user-management:
     dependencies:
@@ -142,6 +157,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      react-router-dom:
+        specifier: ^7.7.1
+        version: 7.7.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@babel/core':
         specifier: ^7.18.6
@@ -170,6 +188,9 @@ importers:
       webpack-dev-server:
         specifier: ^4.9.3
         version: 4.15.2(webpack-cli@4.10.0)(webpack@5.101.0)
+      webpack-merge:
+        specifier: ^6.0.1
+        version: 6.0.1
 
 packages:
 
@@ -1882,6 +1903,10 @@ packages:
   webpack-merge@5.10.0:
     resolution: {integrity: sha512-+4zXKdx7UnO+1jaN4l2lHVD+mFvnlZQP/6ljaJVb4SZiwIKeUnrT5l0gkT8z+n4hKpC+jpOv6O9R+gLtag7pSA==}
     engines: {node: '>=10.0.0'}
+
+  webpack-merge@6.0.1:
+    resolution: {integrity: sha512-hXXvrjtx2PLYx4qruKl+kyRSLc52V+cCvMxRjmKwoA+CBbbF5GfIBtR6kCvl0fYGqTUPKB+1ktVmTHqMOzgCBg==}
+    engines: {node: '>=18.0.0'}
 
   webpack-sources@3.3.3:
     resolution: {integrity: sha512-yd1RBzSGanHkitROoPFd6qsrxt+oFhg/129YzheDGqeustzX0vTZJZsSsQjVQC4yzBQ56K55XU8gaNCtIzOnTg==}
@@ -3741,6 +3766,12 @@ snapshots:
       - utf-8-validate
 
   webpack-merge@5.10.0:
+    dependencies:
+      clone-deep: 4.0.1
+      flat: 5.0.2
+      wildcard: 2.0.1
+
+  webpack-merge@6.0.1:
     dependencies:
       clone-deep: 4.0.1
       flat: 5.0.2
