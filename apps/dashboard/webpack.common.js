@@ -3,7 +3,6 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const deps = require('./package.json').dependencies;
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.js',
   module: {
     rules: [
@@ -25,13 +24,12 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'user_management',
+      name: 'dashboard',
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/App',
       },
       shared: {
-        ...deps,
         react: {
           singleton: true,
           requiredVersion: deps.react,
@@ -40,6 +38,14 @@ module.exports = {
           singleton: true,
           requiredVersion: deps['react-dom'],
         },
+        'react-router-dom': {
+          singleton: true,
+          requiredVersion: deps['react-router-dom'],
+        },
+        '@arco-design/web-react': {
+          singleton: true,
+          requiredVersion: deps['@arco-design/web-react'],
+        }
       },
     }),
     new HtmlWebpackPlugin({
@@ -48,8 +54,5 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
-  },
-  devServer: {
-    historyApiFallback: true,
   },
 };

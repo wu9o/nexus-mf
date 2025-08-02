@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # 或者你的主分支名
+      - main
   workflow_dispatch:
 
 permissions:
@@ -12,8 +12,12 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [main-app, dashboard, user-management, settings]
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,8 +35,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build main-app
-        run: pnpm --filter @mf/main-app build
+      - name: Build ${{ matrix.app }}
+        run: pnpm --filter @mf/${{ matrix.app }} build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -40,10 +44,10 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/main-app/dist
-
+          path: apps/${{ matrix.app }}/dist
+          
   deploy:
-    needs: build
+    needs: build-and-deploy
     runs-on: ubuntu-latest
     environment:
       name: github-pages

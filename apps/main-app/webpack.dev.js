@@ -1,27 +1,13 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
 const { ModuleFederationPlugin } = require('webpack').container;
 const deps = require('./package.json').dependencies;
 
-module.exports = {
+const devConfig = {
   mode: 'development',
-  entry: './src/index.js',
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-react'],
-          },
-        },
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -32,7 +18,6 @@ module.exports = {
         settings: 'settings@http://localhost:3003/remoteEntry.js',
       },
       shared: {
-        ...deps,
         react: {
           singleton: true,
           requiredVersion: deps.react,
@@ -41,16 +26,17 @@ module.exports = {
           singleton: true,
           requiredVersion: deps['react-dom'],
         },
+        'react-router-dom': {
+          singleton: true,
+          requiredVersion: deps['react-router-dom'],
+        },
+        '@arco-design/web-react': {
+          singleton: true,
+          requiredVersion: deps['@arco-design/web-react'],
+        }
       },
     }),
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-    }),
   ],
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-  devServer: {
-    historyApiFallback: true,
-  },
 };
+
+module.exports = merge(common, devConfig);
