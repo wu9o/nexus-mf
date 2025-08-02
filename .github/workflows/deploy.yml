@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -38,16 +38,41 @@ jobs:
       - name: Build ${{ matrix.app }}
         run: pnpm --filter @mf/${{ matrix.app }} build
 
+      - name: Upload individual artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.app }}
+          path: apps/${{ matrix.app }}/dist
+
+  assemble:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dists
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site/dashboard _site/user-management _site/settings
+          cp -r dists/dist-main-app/* _site/
+          cp -r dists/dist-dashboard/* _site/dashboard/
+          cp -r dists/dist-user-management/* _site/user-management/
+          cp -r dists/dist-settings/* _site/settings/
+          echo "Assembled site structure:"
+          ls -R _site
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
+      - name: Upload final artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/${{ matrix.app }}/dist
+          path: _site
           
   deploy:
-    needs: build-and-deploy
+    needs: assemble
     runs-on: ubuntu-latest
     environment:
       name: github-pages
