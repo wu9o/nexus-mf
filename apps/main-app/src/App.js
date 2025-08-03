@@ -3,13 +3,27 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Spin } from '@arco-design/web-react';
 import { IconHome, IconDashboard, IconUser, IconSettings } from '@arco-design/web-react/icon';
 import NotFound from './NotFound';
+import SandboxMFE from './SandboxMFE';
 
 const { Header, Sider, Content } = Layout;
 
-// Use React.lazy for native, stable module federation
-const DashboardApp = React.lazy(() => import('dashboard/App'));
-const UserManagementApp = React.lazy(() => import('user_management/App'));
-const SettingsApp = React.lazy(() => import('settings/App'));
+const subApps = {
+  dashboard: {
+    name: 'dashboard',
+    url: 'http://localhost:3001/remoteEntry.js',
+    basename: '/dashboard',
+  },
+  user_management: {
+    name: 'user_management',
+    url: 'http://localhost:3002/remoteEntry.js',
+    basename: '/user-management',
+  },
+  settings: {
+    name: 'settings',
+    url: 'http://localhost:3003/remoteEntry.js',
+    basename: '/settings',
+  },
+};
 
 const App = () => {
   const location = useLocation();
@@ -51,9 +65,9 @@ const App = () => {
           <Suspense fallback={<div style={{textAlign: 'center', marginTop: 100}}><Spin size={40} /></div>}>
             <Routes>
               <Route path="/" element={<h1>Welcome to the Main Platform!</h1>} />
-              <Route path="/dashboard/*" element={<DashboardApp />} />
-              <Route path="/user-management/*" element={<UserManagementApp />} />
-              <Route path="/settings/*" element={<SettingsApp />} />
+              <Route path="/dashboard/*" element={<SandboxMFE name={subApps.dashboard.name} url={subApps.dashboard.url} basename={subApps.dashboard.basename} />} />
+              <Route path="/user-management/*" element={<SandboxMFE name={subApps.user_management.name} url={subApps.user_management.url} basename={subApps.user_management.basename} />} />
+              <Route path="/settings/*" element={<SandboxMFE name={subApps.settings.name} url={subApps.settings.url} basename={subApps.settings.basename} />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

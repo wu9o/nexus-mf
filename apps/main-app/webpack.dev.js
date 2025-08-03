@@ -12,29 +12,8 @@ const devConfig = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'main_app',
-      remotes: {
-        dashboard: 'dashboard@http://localhost:3001/remoteEntry.js',
-        user_management: 'user_management@http://localhost:3002/remoteEntry.js',
-        settings: 'settings@http://localhost:3003/remoteEntry.js',
-      },
-      shared: {
-        react: {
-          singleton: true,
-          requiredVersion: deps.react,
-        },
-        'react-dom': {
-          singleton: true,
-          requiredVersion: deps['react-dom'],
-        },
-        'react-router-dom': {
-          singleton: true,
-          requiredVersion: deps['react-router-dom'],
-        },
-        '@arco-design/web-react': {
-          singleton: true,
-          requiredVersion: deps['@arco-design/web-react'],
-        }
-      },
+      // REMOTES ARE NO LONGER NEEDED HERE
+      // 移除 shared 配置
     }),
   ],
 };

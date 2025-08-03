@@ -12,11 +12,7 @@ const prodConfig = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'main_app',
-      remotes: {
-        dashboard: 'dashboard@https://yf54.github.io/mf/dashboard/remoteEntry.js',
-        user_management: 'user_management@https://yf54.github.io/mf/user-management/remoteEntry.js',
-        settings: 'settings@https://yf54.github.io/mf/settings/remoteEntry.js',
-      },
+      // REMOTES ARE NO LONGER NEEDED HERE
       shared: {
         react: {
           singleton: true,

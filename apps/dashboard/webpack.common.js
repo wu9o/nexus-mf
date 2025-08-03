@@ -4,6 +4,11 @@ const deps = require('./package.json').dependencies;
 
 module.exports = {
   entry: './src/index.js',
+  output: {
+    publicPath: 'http://localhost:3001/',
+    clean: process.env.NODE_ENV === 'production',
+    globalObject: 'window',
+  },
   module: {
     rules: [
       {
@@ -30,22 +35,9 @@ module.exports = {
         './App': './src/App',
       },
       shared: {
-        react: {
-          singleton: true,
-          requiredVersion: deps.react,
-        },
-        'react-dom': {
-          singleton: true,
-          requiredVersion: deps['react-dom'],
-        },
-        'react-router-dom': {
-          singleton: true,
-          requiredVersion: deps['react-router-dom'],
-        },
-        '@arco-design/web-react': {
-          singleton: true,
-          requiredVersion: deps['@arco-design/web-react'],
-        }
+        ...deps,
+        react: { singleton: true, requiredVersion: deps.react },
+        'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
       },
     }),
     new HtmlWebpackPlugin({

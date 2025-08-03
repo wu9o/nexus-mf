@@ -5,6 +5,6 @@ module.exports = merge(common, {
   mode: 'production',
   output: {
     filename: '[name].[contenthash].js',
-    publicPath: '/mf/user-management/',
+    publicPath: 'https://yf54.github.io/mf/user-management/',
   },
 });
