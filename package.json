@@ -1,17 +1,33 @@
 {
-  "name": "mf",
+  "name": "nexus-mf",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "NexusMF: A pluggable micro-frontend framework with a powerful sandbox mechanism, designed to connect and manage applications seamlessly.",
   "scripts": {
-    "dev": "npm-run-all --parallel start:main start:subapps",
-    "start:main": "pnpm --filter @mf/main-app start",
-    "start:subapps": "pnpm --parallel --filter \"@mf/*\" --filter \"!@mf/main-app\" start",
+    "start": "pnpm --parallel --stream -r start",
+    "build": "pnpm --parallel --stream -r build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wu9o/mf.git"
+  },
+  "keywords": [
+    "micro-frontend",
+    "framework",
+    "module-federation",
+    "webpack",
+    "sandbox",
+    "react",
+    "monorepo",
+    "nexus"
+  ],
+  "author": "wu9o",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wu9o/mf/issues"
+  },
+  "homepage": "https://wu9o.github.io/mf/",
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "axios": "^1.11.0",
