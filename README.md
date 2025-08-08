@@ -1,8 +1,8 @@
-# NexusMF: The Pluggable Micro-Frontend Framework
+# Nexus MF - A Sandbox Framework for Webpack Module Federation
 
-**NexusMF** is a powerful, sandbox-based micro-frontend framework designed to connect and manage independent web applications seamlessly. It provides a robust architecture for building scalable, isolated, and maintainable large-scale projects. The name "Nexus" reflects its core mission: to act as a central hub that orchestrates multiple applications into a single, cohesive user experience.
+A practical sandbox framework for building and experimenting with **Webpack Module Federation (MF)**. This project is designed to help developers quickly learn, experiment with, and build scalable micro-frontend applications.
 
-This repository contains the core implementation of NexusMF and a demo showcasing its capabilities.
+**Keywords:** `webpack`, `webpack5`, `module-federation`, `mf`, `sandbox`, `micro-frontend`, `react`
 
 **[>> Live Demo <<](https://wu9o.github.io/nexus-mf/)**
 

@@ -1,8 +1,8 @@
-# NexusMF: 可插拔的微前端框架
+# Nexus MF - 一个基于 Webpack Module Federation 的沙箱框架
 
-**NexusMF** 是一个强大的、基于沙箱的微前端框架，其设计目标是无缝地连接和管理多个独立的 Web 应用。它为构建可扩展、高内聚、易于维护的大型项目提供了一套健壮的架构。"Nexus"（核心/枢纽）这个名字正反映了它的核心使命：作为一个中心枢纽，将多个应用编排成一个统一、连贯的用户体验。
+一个用于构建和实验 **Webpack Module Federation (MF)** 的实践性沙箱框架。该项目旨在帮助开发者快速学习、实验和构建可扩展的微前端应用。
 
-本仓库包含了 NexusMF 的核心实现以及一个展示其能力的演示项目。
+**关键词:** `webpack`, `webpack5`, `module-federation`, `mf`, `sandbox`, `微前端`, `micro-frontend`, `react`
 
 **[>> 在线演示 <<](https://wu9o.github.io/nexus-mf/)**
 
