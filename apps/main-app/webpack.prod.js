@@ -3,8 +3,8 @@ const common = require('./webpack.common.js');
 const { ModuleFederationPlugin } = require('webpack').container;
 const deps = require('./package.json').dependencies;
 
-// 假设部署在 https://wujiuli.github.io/mf/
-const DEPLOY_URL = 'https://wujiuli.github.io/mf/';
+// 假设部署在 https://wu9o.github.io/mf/
+const DEPLOY_URL = 'https://wu9o.github.io/mf/';
 
 const prodConfig = {
   mode: 'production',

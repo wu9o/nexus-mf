@@ -1,8 +1,8 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
-// 假设部署在 https://wujiuli.github.io/mf/
-const DEPLOY_URL = 'https://wujiuli.Git/mf/';
+// 假设部署在 https://wu9o.github.io/mf/
+const DEPLOY_URL = 'https://wu9o.github.io/mf/';
 
 module.exports = merge(common, {
   mode: 'production',
