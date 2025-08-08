@@ -60,6 +60,10 @@ jobs:
           cp -r dists/dist-dashboard/* _site/dashboard/
           cp -r dists/dist-user-management/* _site/user-management/
           cp -r dists/dist-settings/* _site/settings/
+          
+          # Copy index.html to 404.html to handle SPA routing on GitHub Pages
+          cp _site/index.html _site/404.html
+          
           echo "Assembled site structure:"
           ls -R _site
 

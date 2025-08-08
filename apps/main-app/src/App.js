@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect } from 'react';
-import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Spin } from '@arco-design/web-react';
 import { IconHome, IconDashboard, IconUser, IconSettings } from '@arco-design/web-react/icon';
 import NotFound from './NotFound';
@@ -31,22 +31,6 @@ const subApps = {
 
 const App = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      const redirectPath = sessionStorage.getItem('redirect');
-      if (redirectPath) {
-        sessionStorage.removeItem('redirect');
-        // The path from sessionStorage will be like `/mf/user-management`.
-        // The router's basename is `/mf`, so we need to navigate to the path without the basename.
-        const pathWithoutBasename = redirectPath.replace(/^\/mf/, '');
-        if (pathWithoutBasename) {
-          navigate(pathWithoutBasename);
-        }
-      }
-    }
-  }, [navigate]);
 
   const getSelectedKey = () => {
     const path = location.pathname;
