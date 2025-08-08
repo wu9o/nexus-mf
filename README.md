@@ -4,7 +4,7 @@
 
 This repository contains the core implementation of NexusMF and a demo showcasing its capabilities.
 
-**[>> Live Demo <<](https://wu9o.github.io/mf/)**
+**[>> Live Demo <<](https://wu9o.github.io/nexus-mf/)**
 
 ---
 
@@ -81,8 +81,8 @@ GitHub Pages is a static hosting service and does not natively support SPA routi
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/wu9o/mf.git
-    cd mf
+    git clone https://github.com/wu9o/nexus-mf.git
+    cd nexus-mf
     ```
 
 2.  **Install dependencies:**

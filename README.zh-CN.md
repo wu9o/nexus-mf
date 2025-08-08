@@ -4,7 +4,7 @@
 
 本仓库包含了 NexusMF 的核心实现以及一个展示其能力的演示项目。
 
-**[>> 在线演示 <<](https://wu9o.github.io/mf/)**
+**[>> 在线演示 <<](https://wu9o.github.io/nexus-mf/)**
 
 ---
 
@@ -81,8 +81,8 @@ GitHub Pages 是一个纯静态托管服务，原生不支持单页应用（SPA�
 
 1.  **克隆仓库:**
     ```bash
-    git clone https://github.com/wu9o/mf.git
-    cd mf
+    git clone https://github.com/wu9o/nexus-mf.git
+    cd nexus-mf
     ```
 
 2.  **安装依赖:**

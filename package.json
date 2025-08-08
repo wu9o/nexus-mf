@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wu9o/mf.git"
+    "url": "git+https://github.com/wu9o/nexus-mf.git"
   },
   "keywords": [
     "micro-frontend",
@@ -25,9 +25,9 @@
   "author": "wu9o",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wu9o/mf/issues"
+    "url": "https://github.com/wu9o/nexus-mf/issues"
   },
-  "homepage": "https://wu9o.github.io/mf/",
+  "homepage": "https://wu9o.github.io/nexus-mf/",
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "axios": "^1.11.0",
