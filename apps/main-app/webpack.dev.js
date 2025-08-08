@@ -15,8 +15,13 @@ const devConfig = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'main_app',
-      // REMOTES ARE NO LONGER NEEDED HERE
-      // 移除 shared 配置
+      remotes: {}, // No remotes in dev, they are loaded dynamically in App.js
+      shared: {
+        react: { singleton: true, requiredVersion: deps.react },
+        'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
+        'react-router-dom': { singleton: true, requiredVersion: deps['react-router-dom'] },
+        '@arco-design/web-react': { singleton: true, requiredVersion: deps['@arco-design/web-react'] },
+      },
     }),
   ],
 };

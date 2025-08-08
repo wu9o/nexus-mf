@@ -3,8 +3,7 @@ const common = require('./webpack.common.js');
 const { ModuleFederationPlugin } = require('webpack').container;
 const deps = require('./package.json').dependencies;
 
-// 假设部署在 https://wu9o.github.io/mf/
-const DEPLOY_URL = 'https://wu9o.github.io/mf/';
+const { PROD_BASE_PATH } = require('@mf/shared-config');
 
 const prodConfig = {
   mode: 'production',
@@ -16,12 +15,11 @@ const prodConfig = {
     new ModuleFederationPlugin({
       name: 'main_app',
       remotes: {
-        dashboard: `dashboard@${DEPLOY_URL}dashboard/remoteEntry.js`,
-        settings: `settings@${DEPLOY_URL}settings/remoteEntry.js`,
-        user_management: `user_management@${DEPLOY_URL}user_management/remoteEntry.js`,
+        dashboard: `dashboard@${PROD_BASE_PATH}dashboard/remoteEntry.js`,
+        settings: `settings@${PROD_BASE_PATH}settings/remoteEntry.js`,
+        user_management: `user_management@${PROD_BASE_PATH}user_management/remoteEntry.js`,
       },
       shared: {
-        ...deps,
         react: { singleton: true, requiredVersion: deps.react },
         'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
         'react-router-dom': { singleton: true, requiredVersion: deps['react-router-dom'] },
