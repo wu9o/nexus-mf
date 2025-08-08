@@ -7,20 +7,23 @@ import SandboxMFE from './SandboxMFE';
 
 const { Header, Sider, Content } = Layout;
 
+const isProd = process.env.NODE_ENV === 'production';
+const prodBaseUrl = 'https://wu9o.github.io/mf/';
+
 const subApps = {
   dashboard: {
     name: 'dashboard',
-    url: 'http://localhost:3001/remoteEntry.js',
+    url: isProd ? `${prodBaseUrl}dashboard/remoteEntry.js` : 'http://localhost:3001/remoteEntry.js',
     basename: '/dashboard',
   },
   user_management: {
     name: 'user_management',
-    url: 'http://localhost:3002/remoteEntry.js',
+    url: isProd ? `${prodBaseUrl}user-management/remoteEntry.js` : 'http://localhost:3002/remoteEntry.js',
     basename: '/user-management',
   },
   settings: {
     name: 'settings',
-    url: 'http://localhost:3003/remoteEntry.js',
+    url: isProd ? `${prodBaseUrl}settings/remoteEntry.js` : 'http://localhost:3003/remoteEntry.js',
     basename: '/settings',
   },
 };

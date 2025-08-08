@@ -4,9 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import '@arco-design/web-react/dist/css/arco.css';
 
+const basename = process.env.NODE_ENV === 'production' ? '/mf' : '/';
+
 // 主应用就是一个标准的 React 应用，不再初始化 Garfish
 const AppWrapper = () => (
-  <BrowserRouter>
+  <BrowserRouter basename={basename}>
     <App />
   </BrowserRouter>
 );
