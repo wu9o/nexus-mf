@@ -200,6 +200,7 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
             window.__SANDBOX_REACT_ROOT__ = root;
           }
           // 使用 React.createElement 来渲染组件
+          // 关键修复：在这里为微应用包裹一层 BrowserRouter，为其提供独立的、可访问的路由上下文
           root.render(
             React.createElement(
               BrowserRouter,
