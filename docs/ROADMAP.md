@@ -1,50 +1,23 @@
-# Nexus-MF 路线图
+# ROADMAP
 
-本文档旨在概述 `nexus-mf` 项目未来的增强计划和战略方向，为开发者和相关人员提供清晰的路线图，确保各方对未来的开发工作有一致的理解。
+## Phase 1: Core Framework Refactoring (Completed)
 
-## 规划任务
+- [x] **Extract Core Logic into a Reusable Package**
+  - **Status:** Done
+  - **Details:** The core sandboxing and Module Federation logic has been successfully extracted from the main application into a new, reusable package located at `packages/core`. This package is named `@nexus-mf/core`.
 
-1.  **重构为核心框架**
-    -   重构仓库，打造一个核心框架包。该包将作为项目的核心，提供一个基于 **Webpack Module Federation** 和 **Sandbox**（沙箱）的强大、可复用的解决方案，用于安全、隔离地加载微前端。
-    -   当前 `apps/` 目录下的所有应用都将被重构，以使用此核心框架，并作为官方**示例**存在。
+- [x] **Restructure Project into Examples**
+  - **Status:** Done
+  - **Details:** The original applications under the `apps/` directory have been moved to `examples/`. They now serve as a clear demonstration of how to use the `@nexus-mf/core` framework.
 
-2.  **全面的 TypeScript 迁移**
-    -   将整个 Monorepo 代码库从 JavaScript 迁移到 TypeScript，以通过静态类型检查提升代码质量、可维护性和开发者体验。
-    -   为所有包建立严格的 TypeScript 配置（`tsconfig.json`），并确保所有新功能都使用 TypeScript 编写。
+- [x] **Update Documentation**
+  - **Status:** Done
+  - **Details:** The `README.md` and `README.zh-CN.md` files have been updated to reflect the new architecture, explaining the roles of the `@nexus-mf/core` package and the `examples/` directory. The local development commands have also been updated.
 
-3.  **自动化测试（单元测试与 E2E 测试）**
-    -   建立完善的测试体系，包括**单元测试**（如使用 Jest/RTL）和**端到端（E2E）测试**（如使用 Cypress/Playwright）。
-    -   主要目标是通过在`示例`应用上运行这些测试，来自动化地验证核心框架的稳定性，确保框架的变更不会引入问题。
+## Phase 2: Future Enhancements
 
-4.  **创建共享组件库**
-    -   开发一个专门的包（`packages/shared-ui`），用于存放通用的、可复用的 React 组件（如按钮、输入框、弹窗等）。
-    -   集成 Storybook，用于组件的隔离开发、测试和文档编写，以强制实现 UI 的一致性。
-
-5.  **实现全局状态管理**
-    -   引入一个健壮的全局状态管理方案（如 Zustand、Redux），以处理跨微前端共享的状态，例如用户信息和会话数据。
-
-6.  **集中化认证与授权**
-    -   将认证逻辑统一到一个共享模块或服务中，并为令牌刷新、会话过期和基于角色的访问控制（RBAC）制定清晰的策略。
-
-7.  **标准化代码检查与格式化**
-    -   在整个 Monorepo 中强制执行统一的 ESLint 和 Prettier 配置，并使用预提交钩子（Husky）来自动化代码质量检查。
-
-8.  **完善文档**
-    -   改进所有 README 文件，并在 `docs` 文件夹中添加架构图和决策记录。
-
-9.  **建立打包体积分析机制**
-    -   将 `webpack-bundle-analyzer` 集成到构建流程中，以监控和控制每个微前端的打包体积。
-
-10. **评估现代构建工具**
-    -   研究从 Webpack 迁移到更快的构建工具（如 Vite）的可行性，以提升开发速度。
-
-11. **实现独立部署**
-    -   重构 CI/CD 工作流，允许每个微前端独立部署，避免因单个应用的变更而需要重新部署整个项目。
-
-12. **探索使用 Service Worker 进行缓存**
-    -   研究使用 Service Worker 来缓存微前端的静态资源（如 JavaScript 包、CSS 等）。
-    -   目标是通过从缓存直接提供资源来显著改善二次访问时的加载速度，减少网络依赖。
-
-13. **适配多种沙箱机制**
-    -   研究并实现一个可插拔的沙箱层，使核心框架不局限于单一的沙箱实现。
-    -   目标是支持多种主流的沙箱方案（如基于 Proxy 的沙箱、快照沙箱、iframe 等），允许开发者根据不同应用场景下的安全性和性能需求，灵活选择最合适的隔离方案。
+- [ ] **Publish to npm**: Package and publish `@nexus-mf/core` to the npm registry to make it publicly available.
+- [ ] **Improve API**: Refine the API of the `SandboxMFE` component for better flexibility and ease of use.
+- [ ] **Add More Examples**: Create additional examples to showcase different use cases and framework integrations (e.g., Vue, Svelte).
+- [ ] **Enhance Sandbox Capabilities**: Explore and integrate more advanced sandboxing features, such as network request interception or a more fine-grained global variable proxy.
+- [ ] **Write Unit and Integration Tests**: Develop a comprehensive test suite for the `@nexus-mf/core` package to ensure its stability and reliability.
