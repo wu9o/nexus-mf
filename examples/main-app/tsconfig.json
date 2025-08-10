@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true, // We use babel-loader for transpilation, so we don't need tsc to emit files
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}

@@ -6,12 +6,14 @@ import '@arco-design/web-react/dist/css/arco.css';
 
 const basename = process.env.NODE_ENV === 'production' ? '/mf' : '/';
 
-// 主应用就是一个标准的 React 应用，不再初始化 Garfish
+// The main application is a standard React app and no longer initializes Garfish
 const AppWrapper = () => (
   <BrowserRouter basename={basename}>
     <App />
   </BrowserRouter>
 );
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root') as HTMLElement;
+const root = ReactDOM.createRoot(rootElement);
+
 root.render(<AppWrapper />);
