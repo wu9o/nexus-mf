@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import '@arco-design/web-react/dist/css/arco.css';
 
-const basename = process.env.NODE_ENV === 'production' ? '/mf' : '/';
+const basename = process.env.NODE_ENV === 'production' ? '/nexus-mf' : '/';
 
 // The main application is a standard React app and no longer initializes Garfish
 const AppWrapper = () => (

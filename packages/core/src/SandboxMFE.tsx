@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sandbox from '@garfish/browser-vm';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 // 为 Webpack 模块联邦的全局变量定义 TypeScript 接口
@@ -187,8 +188,7 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
         // 1. 将渲染所需的 React 相关库注入到沙箱中
         const global: any = sandbox.global;
         global.React = React;
-        // 使用 require 来动态获取 react-dom/client，避免顶层 import 带来的类型冲突
-        global.ReactDOM = require('react-dom/client');
+        global.ReactDOM = ReactDOM;
         global.BrowserRouter = BrowserRouter;
 
         // 2. 在沙箱中执行渲染脚本

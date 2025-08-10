@@ -6,6 +6,7 @@ import dts from 'rollup-plugin-dts';
 const external = [
   'react',
   'react-dom',
+  'react-dom/client',
   'react/jsx-runtime',
   'react-router-dom',
   '@garfish/browser-vm',

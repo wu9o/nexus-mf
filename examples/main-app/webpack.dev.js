@@ -2,6 +2,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { ModuleFederationPlugin } = require('webpack').container;
 const deps = require('./package.json').dependencies;
+const path = require('path');
 
 const devConfig = {
   mode: 'development',
@@ -11,6 +12,11 @@ const devConfig = {
   devServer: {
     port: 3000,
     historyApiFallback: true,
+  },
+  resolve: {
+    alias: {
+      '@nexus-mf/core': path.resolve(__dirname, '../../packages/core/src'),
+    },
   },
   plugins: [
     new ModuleFederationPlugin({

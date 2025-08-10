@@ -2,7 +2,11 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true, // We use babel-loader for transpilation, so we don't need tsc to emit files
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@nexus-mf/core": ["../../packages/core/src"]
+    }
   },
   "include": ["src"]
 }
