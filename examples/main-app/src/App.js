@@ -3,7 +3,7 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Spin } from '@arco-design/web-react';
 import { IconHome, IconDashboard, IconUser, IconSettings } from '@arco-design/web-react/icon';
 import NotFound from './NotFound';
-import SandboxMFE from './SandboxMFE';
+import { SandboxMFE } from '@nexus-mf/core';
 
 import { PROD_BASE_PATH } from '@mf/shared-config';
 
