@@ -225,7 +225,7 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
         sandbox.close();
       }
     };
-  }, [name, url, basename]);
+  }, [name, url]);
 
   // 渲染 effect，负责将微应用组件渲染到 DOM 中
   useEffect(() => {
