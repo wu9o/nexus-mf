@@ -4,8 +4,15 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 // 为 Webpack 模块联邦的全局变量定义 TypeScript 接口
+interface SharedModule {
+  get: () => Promise<any>;
+  loaded?: boolean;
+  from: string;
+  eager: boolean;
+}
+
 interface WebpackShareScopes {
-  default: Record<string, unknown>;
+  default: Record<string, SharedModule>;
 }
 
 interface WebpackContainer {
@@ -92,6 +99,41 @@ const loadAndInitRemoteContainer = (appName: string, url: string): Promise<Webpa
 };
 
 /**
+ * 检查并等待关键共享依赖加载完成
+ * @param deps 需要检查的共享依赖列表（如 ['react', 'react-dom', 'react-router-dom']）
+ * @param timeout 超时时间（默认5000ms）
+ * @returns Promise 成功则表示依赖就绪，失败则超时
+ */
+const waitForSharedDeps = (
+  deps: string[] = ['react', 'react-dom', 'react-router-dom'],
+  timeout = 5000
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+    const checkInterval = setInterval(() => {
+      // 检查是否超时
+      if (Date.now() - startTime > timeout) {
+        clearInterval(checkInterval);
+        reject(new Error(`[SandboxMFE] Shared dependencies ${deps.join(', ')} timed out`));
+        return;
+      }
+
+      // 检查所有依赖是否已在共享作用域中加载
+      const allLoaded = deps.every(dep => {
+        const sharedModule = __webpack_share_scopes__.default[dep];
+        // 共享模块存在且已加载（根据 webpack 共享作用域结构判断）
+        return sharedModule && sharedModule.get && typeof sharedModule.get === 'function';
+      });
+
+      if (allLoaded) {
+        clearInterval(checkInterval);
+        resolve();
+      }
+    }, 100); // 每100ms检查一次
+  });
+};
+
+/**
  * @zh
  * 核心组件，用于在沙箱环境中加载和渲染一个模块联邦（MF）微应用。
  * @en
@@ -111,18 +153,20 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
 
     const loadAndRenderApp = async () => {
       try {
-        // 1. 创建一个新的 Garfish 沙箱实例
+        // 1. 等待关键共享依赖加载完成
+        await waitForSharedDeps();
+
+        // 2. 创建一个新的 Garfish 沙箱实例
         sandbox = new Sandbox({
           namespace: name,
           disableWith: false, // 允许沙箱访问主应用的 window，但所有修改将被代理
         });
         sandboxRef.current = sandbox;
 
-        // 2. 在主应用环境中加载并初始化远程容器
+        // 3. 在主应用环境中加载并初始化远程容器
         const nativeContainer = await loadAndInitRemoteContainer(name, url);
 
-        // 3. 将所有必要的对象和函数注入到沙箱的全局作用域中
-        //    这是实现沙箱内运行的关键步骤
+        // 4. 将所有必要的对象和函数注入到沙箱的全局作用域中
         const global: any = sandbox.global;
         global.React = React;
         global.ReactDOM = ReactDOM;
@@ -131,7 +175,7 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
         global.__webpack_share_scopes__ = __webpack_share_scopes__; // 注入共享作用域
         global.__webpack_require__ = __webpack_require__; // 注入 webpack require
 
-        // 4. 在沙箱内部执行代码，以获取微应用的模块工厂
+        // 5. 在沙箱内部执行代码，以获取微应用的模块工厂
         const factory = await new Promise<() => { default: React.ComponentType }>((resolve, reject) => {
           // 通过在沙箱的 window 上挂载一个回调函数，来从 `execScript` 的异步执行中获取结果
           global.__ON_FACTORY_LOADED__ = (f: () => { default: React.ComponentType }) => {
@@ -149,7 +193,7 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
           `);
         });
 
-        // 5. 从工厂函数中获取模块并更新 state，以触发渲染
+        // 6. 从工厂函数中获取模块并更新 state，以触发渲染
         const Module = factory();
         if (!Module || !Module.default) {
           throw new Error(`Module or default export is invalid.`);
@@ -163,7 +207,7 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
 
     loadAndRenderApp();
 
-    // 6. 清理函数：在组件卸载时关闭沙箱
+    // 7. 清理函数：在组件卸载时关闭沙箱
     return () => {
       if (sandbox) {
         // 异步执行卸载脚本，以确保 React 组件已从 DOM 中移除
