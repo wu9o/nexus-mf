@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import '@arco-design/web-react/dist/css/arco.css';
-
-const basename = process.env.NODE_ENV === 'production' ? '/nexus-mf' : '/';
+import { ROUTER_BASENAME } from '@mf/shared-config';
 
 // The main application is a standard React app and no longer initializes Garfish
 const AppWrapper = () => (
-  <BrowserRouter basename={basename}>
+  <BrowserRouter basename={ROUTER_BASENAME}>
     <App />
   </BrowserRouter>
 );

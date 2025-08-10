@@ -4,7 +4,7 @@ import { Layout, Menu, Spin } from '@arco-design/web-react';
 import { IconHome, IconDashboard, IconUser, IconSettings } from '@arco-design/web-react/icon';
 import NotFound from './NotFound';
 import { SandboxMFE } from '@nexus-mf/core';
-import { PROD_BASE_PATH } from '@mf/shared-config';
+import { PROD_BASE_PATH, ROUTER_BASENAME } from '@mf/shared-config';
 
 const { Header, Sider, Content } = Layout;
 
@@ -14,17 +14,17 @@ const subApps = {
   dashboard: {
     name: 'dashboard',
     url: isProd ? `${PROD_BASE_PATH}dashboard/remoteEntry.js` : 'http://localhost:3001/remoteEntry.js',
-    basename: isProd ? '/mf/dashboard' : '/dashboard',
+    basename: `${ROUTER_BASENAME}/dashboard`.replace('//', '/'),
   },
   user_management: {
     name: 'user_management',
     url: isProd ? `${PROD_BASE_PATH}user-management/remoteEntry.js` : 'http://localhost:3002/remoteEntry.js',
-    basename: isProd ? '/mf/user-management' : '/user-management',
+    basename: `${ROUTER_BASENAME}/user-management`.replace('//', '/'),
   },
   settings: {
     name: 'settings',
     url: isProd ? `${PROD_BASE_PATH}settings/remoteEntry.js` : 'http://localhost:3003/remoteEntry.js',
-    basename: isProd ? '/mf/settings' : '/settings',
+    basename: `${ROUTER_BASENAME}/settings`.replace('//', '/'),
   },
 };
 
@@ -33,9 +33,9 @@ const App: React.FC = () => {
 
   const getSelectedKey = () => {
     const path = location.pathname;
-    if (path.startsWith('/dashboard') || path.startsWith('/mf/dashboard')) return '/dashboard';
-    if (path.startsWith('/user-management') || path.startsWith('/mf/user-management')) return '/user-management';
-    if (path.startsWith('/settings') || path.startsWith('/mf/settings')) return '/settings';
+    if (path.startsWith('/dashboard') || path.startsWith(`${ROUTER_BASENAME}/dashboard`)) return '/dashboard';
+    if (path.startsWith('/user-management') || path.startsWith(`${ROUTER_BASENAME}/user-management`)) return '/user-management';
+    if (path.startsWith('/settings') || path.startsWith(`${ROUTER_BASENAME}/settings`)) return '/settings';
     return '/';
   };
 
