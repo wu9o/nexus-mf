@@ -124,6 +124,9 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
         // 3. 将所有必要的对象和函数注入到沙箱的全局作用域中
         //    这是实现沙箱内运行的关键步骤
         const global: any = sandbox.global;
+        global.React = React;
+        global.ReactDOM = ReactDOM;
+        global.BrowserRouter = BrowserRouter;
         global[name] = nativeContainer; // 注入远程容器
         global.__webpack_share_scopes__ = __webpack_share_scopes__; // 注入共享作用域
         global.__webpack_require__ = __webpack_require__; // 注入 webpack require
@@ -185,22 +188,14 @@ const SandboxMFE: React.FC<SandboxMFEProps> = ({ name, url, basename }) => {
     if (AppComponent && containerRef.current) {
       const sandbox = sandboxRef.current;
       if (sandbox?.global) {
-        // 1. 将渲染所需的 React 相关库注入到沙箱中
-        const global: any = sandbox.global;
-        global.React = React;
-        global.ReactDOM = ReactDOM;
-        global.BrowserRouter = BrowserRouter;
-
-        // 2. 在沙箱中执行渲染脚本
+        // 在沙箱中执行渲染脚本
         sandbox.execScript(`
-          let root = window.__SANDBOX_REACT_ROOT__;
-          // 复用 React Root 以提高性能
-          if (!root) {
-            root = ReactDOM.createRoot(document.getElementById('sandbox-container'));
-            window.__SANDBOX_REACT_ROOT__ = root;
+          if (window.__SANDBOX_REACT_ROOT__) {
+            window.__SANDBOX_REACT_ROOT__.unmount();
+            window.__SANDBOX_REACT_ROOT__ = null;
           }
-          // 使用 React.createElement 来渲染组件
-          // 关键修复：在这里为微应用包裹一层 BrowserRouter，为其提供独立的、可访问的路由上下文
+          const root = ReactDOM.createRoot(document.getElementById('sandbox-container'));
+          window.__SANDBOX_REACT_ROOT__ = root;
           root.render(
             React.createElement(
               BrowserRouter,
