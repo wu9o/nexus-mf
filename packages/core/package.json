@@ -2,13 +2,23 @@
   "name": "@nexus-mf/core",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc --emitDeclarationOnly --outDir dist/types && rollup -c",
+    "dev": "rollup -c -w"
   },
   "dependencies": {
     "@garfish/browser-vm": "^1.6.0",
@@ -19,9 +29,15 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/node": "^20.14.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "esbuild": "^0.23.0",
+    "rollup": "^4.19.1",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-esbuild": "^6.1.1",
     "typescript": "^5.5.4"
   }
 }

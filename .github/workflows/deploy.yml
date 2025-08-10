@@ -14,10 +14,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: [main-app, dashboard, user-management, settings]
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,14 +31,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build ${{ matrix.app }}
-        run: pnpm --filter @mf/${{ matrix.app }} build
+      - name: Build all packages recursively
+        run: pnpm -r build
 
-      - name: Upload individual artifact
+      - name: Upload main-app artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ matrix.app }}
-          path: examples/${{ matrix.app }}/dist
+          name: dist-main-app
+          path: examples/main-app/dist
+
+      - name: Upload dashboard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-dashboard
+          path: examples/dashboard/dist
+
+      - name: Upload user-management artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-user-management
+          path: examples/user-management/dist
+
+      - name: Upload settings artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-settings
+          path: examples/settings/dist
 
   assemble:
     needs: build
