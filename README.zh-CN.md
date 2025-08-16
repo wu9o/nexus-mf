@@ -1,6 +1,170 @@
 # Nexus MF - 一个基于 Webpack Module Federation 的沙箱框架
 
+# Nexus MF - 一个基于 Webpack Module Federation 的沙箱框架
+
+[![npm version](https://img.shields.io/npm/v/@nexus-mf/core.svg)](https://www.npmjs.com/package/@nexus-mf/core)
+[![npm downloads](https://img.shields.io/npm/dm/@nexus-mf/core.svg)](https://www.npmjs.com/package/@nexus-mf/core)
+
 一个用于构建和实验 **Webpack Module Federation (MF)** 的实践性沙箱框架。该项目提供了一个核心包 `@nexus-mf/core` 和一组示例，旨在帮助开发者快速学习、实验和构建可扩展的微前端应用。
+
+**关键词:** `webpack`, `webpack5`, `module-federation`, `mf`, `sandbox`, `微前端`, `micro-frontend`, `react`
+
+**[>> 在线演示 <<](https://wu9o.github.io/nexus-mf/)**
+
+---
+
+[English](./README.md) | **中文**
+
+### 快速上手
+
+框架的核心逻辑已作为 npm 包发布。你可以使用它来构建自己的微前端主应用。
+
+#### 1. 安装
+
+```bash
+npm install @nexus-mf/core react react-dom
+# 或
+pnpm add @nexus-mf/core react react-dom
+# 或
+yarn add @nexus-mf/core react react-dom
+```
+
+#### 2. 基本用法
+
+在你的 React 应用中导入并使用 `SandboxMFE` 组件，来加载一个远程的微前端应用。
+
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SandboxMFE from '@nexus-mf/core';
+
+const App = () => {
+  return (
+    <Router>
+      {/* 你的布局组件 (顶栏、侧边栏等) */}
+      <Routes>
+        {/* 其他路由 */}
+        <Route
+          path="/dashboard/*"
+          element={
+            <SandboxMFE
+              name="dashboard"
+              url="http://localhost:3001/remoteEntry.js"
+              basename="/dashboard"
+            />
+          }
+        />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+> **注意:** 为了使其正常工作，你的主应用必须被配置为一个 Webpack Module Federation 的宿主（Host），并共享 `react` 和 `react-dom` 等依赖。如需一个完整且可运行的示例，请参考本项目中的 `examples/main-app`。
+
+### 核心特性
+
+- **可复用的核心包**: 核心的沙箱和模块联邦逻辑被封装在 `@nexus-mf/core` 包中，让您可以轻松地将其集成到自己的项目中。
+- **可插拔的沙箱机制**: 框架设计支持多种沙箱解决方案（当前演示使用 Garfish），确保每个微应用都在完全隔离的环境中运行，以防止样式冲突和全局变量污染。
+- **模块联邦 (Module Federation)**: 利用 Webpack 5 的模块联邦技术，在运行时动态加载微应用。
+- **Monorepo 架构**: 使用 `pnpm` workspaces 进行管理，为核心包和示例应用提供了流畅的开发体验。
+- **集中化配置**: 通过一个专门的 `@mf/shared-config` 包来管理共享配置，确保了项目的一致性和可维护性。
+- **开发者友好**: 提供预设的 CI/CD 工作流以便于部署，并包含了处理单页应用（SPA）深层链接的清晰解决方案。
+
+### 架构概览
+
+NexusMF 的架构由一个 **核心框架 (`@nexus-mf/core`)** 和多个 **示例应用** 组成。
+
+```
++-------------------------------------------------+
+|                      浏览器                     |
+| +---------------------------------------------+ |
+| |            示例主应用 (main-app)            | |
+| | +-----------------------------------------+ | |
+| | |         整体布局 (导航菜单, 顶栏)         | | |
+| | +-----------------------------------------+ | |
+| | |                                         | | |
+| | |  +-----------------------------------+  | | |
+| | |  |          微应用沙箱环境             |  | | |
+| | |  |  (由 @nexus-mf/core 渲染)         |  | | |
+| | |  +-----------------------------------+  | | |
+| | |                                         | | |
+| | +-----------------------------------------+ | |
+| +---------------------------------------------+ |
++-------------------------------------------------+
+```
+
+- **核心框架 (`packages/core`)**:
+  - 提供 `SandboxMFE` 组件，该组件负责创建沙箱并加载远程微前端应用。
+  - 可以发布到 npm，并在任何主应用中作为依赖项使用。
+
+- **示例主应用 (`examples/main-app`)**:
+  - 作为用户的入口和应用的容器。
+  - 管理全局页面布局、导航菜单和核心的路由逻辑。
+  - 从 `@nexus-mf/core` 导入并使用 `SandboxMFE` 组件来加载微应用。
+
+- **示例微应用 (`examples/dashboard`, `examples/settings`, etc.)**:
+  - 是功能完整、可独立运行的 React 应用。
+  - 通过模块联邦机制，将自身作为远程模块暴露出去。
+  - 在主应用提供的沙箱内部运行。
+
+### 关键实现细节
+
+#### 1. 沙箱化的微前端加载器 (`packages/core/src/SandboxMFE.js`)
+
+这是框架的核心组件。`SandboxMFE` 组件并非直接挂载远程组件，而是执行以下步骤：
+1. 使用 `@garfish/browser-vm` 创建一个新的沙箱实例。
+2. 在原生 `window` 环境中加载微应用的 `remoteEntry.js`，使其容器 (container) 成为全局可用。
+3. 将远程容器以及像 React 这样的共享库注入到沙箱的全局作用域中。
+4. 在沙箱内部执行微应用的启动代码，从而将整个微应用渲染在一个隔离的环境中。
+
+#### 2. 依赖共享
+
+为了优化性能并确保稳定性，关键的库在主应用和所有微应用之间共享。这在 `ModuleFederationPlugin` 的 `shared` 选项中进行配置。
+
+#### 3. GitHub Pages 深层链接支持
+
+GitHub Pages 是一个纯静态托管服务，原生不支持单页应用（SPA）的路由。为了解决直接访问深层链接（例如 `/mf/dashboard/details`）时出现 404 错误的问题，我们采用了一个简单而高效的技巧：
+- GitHub Actions 的部署工作流 (`.github/workflows/deploy.yml`) 会将根目录的 `index.html` 复制一份并命名为 `404.html`。
+- 当 GitHub Pages 遇到一个不存在的路径时，它会返回 `404.html` 文件，而这个文件实际上就是我们的主应用。
+- React Router 启动后，会从地址栏获取当前路径，并正确地渲染对应的路由。
+
+### 贡献者开发
+
+本章节适用于希望为本框架贡献代码，或在本地运行示例项目的开发者。
+
+1.  **克隆仓库:**
+    ```bash
+    git clone https://github.com/wu9o/nexus-mf.git
+    cd nexus-mf
+    ```
+
+2.  **安装依赖:**
+    ```bash
+    pnpm install
+    ```
+
+3.  **并行启动所有示例应用:**
+    此命令将同时启动主应用和所有微应用。
+    ```bash
+    pnpm --parallel --stream -r --filter "./examples/**" start
+    ```
+
+- 主应用: `http://localhost:3000`
+- Dashboard 应用: `http://localhost:3001`
+- User Management 应用: `http://localhost:3002`
+- Settings 应用: `http://localhost:3003`
+
+
+### 贡献
+
+欢迎提交问题（issues）和拉取请求（pull requests）。
+
+### 许可证
+
+[MIT](./LICENSE)
 
 **关键词:** `webpack`, `webpack5`, `module-federation`, `mf`, `sandbox`, `微前端`, `micro-frontend`, `react`
 

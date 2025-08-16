@@ -1,5 +1,8 @@
 # Nexus MF - A Sandbox Framework for Webpack Module Federation
 
+[![npm version](https://img.shields.io/npm/v/@nexus-mf/core.svg)](https://www.npmjs.com/package/@nexus-mf/core)
+[![npm downloads](https://img.shields.io/npm/dm/@nexus-mf/core.svg)](https://www.npmjs.com/package/@nexus-mf/core)
+
 A practical sandbox framework for building and experimenting with **Webpack Module Federation (MF)**. This project provides a core package `@nexus-mf/core` and a set of examples to help developers quickly learn, experiment with, and build scalable micro-frontend applications.
 
 **Keywords:** `webpack`, `webpack5`, `module-federation`, `mf`, `sandbox`, `micro-frontend`, `react`
@@ -9,6 +12,55 @@ A practical sandbox framework for building and experimenting with **Webpack Modu
 ---
 
 **English** | [中文](./README.zh-CN.md)
+
+### Getting Started
+
+The core logic is available as an npm package. You can use it to build your own micro-frontend shell application.
+
+#### 1. Installation
+
+```bash
+npm install @nexus-mf/core react react-dom
+# or
+pnpm add @nexus-mf/core react react-dom
+# or
+yarn add @nexus-mf/core react react-dom
+```
+
+#### 2. Basic Usage
+
+Import and use the `SandboxMFE` component in your React application to load a remote micro-frontend.
+
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SandboxMFE from '@nexus-mf/core';
+
+const App = () => {
+  return (
+    <Router>
+      {/* Your layout components (header, sidebar, etc.) */}
+      <Routes>
+        {/* Other routes */}
+        <Route
+          path="/dashboard/*"
+          element={
+            <SandboxMFE
+              name="dashboard"
+              url="http://localhost:3001/remoteEntry.js"
+              basename="/dashboard"
+            />
+          }
+        />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+> **Note:** For this to work, your shell application must be configured as a Webpack Module Federation host, sharing dependencies like `react` and `react-dom`. For a complete and runnable example, please refer to the `examples/main-app` in this repository.
 
 ### Core Features
 
@@ -77,7 +129,9 @@ GitHub Pages is a static hosting service and does not natively support SPA routi
 - When GitHub Pages encounters a non-existent path, it serves the `404.html` file, which is actually our main application.
 - React Router then picks up the URL from the address bar and renders the correct route.
 
-### Local Development
+### Development (for Contributors)
+
+This section is for those who want to contribute to the framework or run the examples locally.
 
 1.  **Clone the repository:**
     ```bash
