@@ -10,7 +10,7 @@ A practical sandbox framework for building and experimenting with **Webpack Modu
 
 **English** | [中文](./README.zh-CN.md)
 
-**Usage:** [English Usage Guide](./docs/USAGE.md) | [中文使用手册](./docs/USAGE.zh-CN.md)
+**Docs:** [English Usage Guide](./docs/USAGE.md) | [中文使用手册](./docs/USAGE.zh-CN.md) | [Release Strategy](./docs/RELEASE.md)
 
 ### Core Features
 
