@@ -1,0 +1,25 @@
+.nexus-settings { color: #1d2129; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.nexus-settings__header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 20px; border-bottom: 1px solid #e5e6eb; }
+.nexus-settings__header h1 { margin: 4px 0 0; font-size: 28px; }
+.nexus-settings__eyebrow { color: #86909c; font-size: 12px; letter-spacing: .08em; }
+.nexus-settings__version { color: #0e7a5f; background: #e8fffb; padding: 5px 9px; border-radius: 999px; font-size: 12px; }
+.nexus-settings__nav { display: flex; gap: 20px; padding: 16px 0 24px; }
+.nexus-settings__nav a { color: #4e5969; text-decoration: none; }
+.nexus-settings__nav a:hover { color: #0e7a5f; }
+.nexus-settings h2 { margin-top: 0; }
+.nexus-settings__intro, .nexus-settings__details p { color: #86909c; line-height: 1.6; }
+.nexus-settings__panel, .nexus-settings__details { max-width: 720px; padding: 8px 20px; border: 1px solid #e5e6eb; border-radius: 10px; background: #fff; }
+.nexus-settings__panel label { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid #f2f3f5; cursor: pointer; }
+.nexus-settings__panel label:last-child { border-bottom: 0; }
+.nexus-settings__panel label span { display: flex; flex-direction: column; gap: 4px; }
+.nexus-settings__panel small { color: #86909c; }
+.nexus-settings__panel input { width: 18px; height: 18px; accent-color: #0e7a5f; }
+.nexus-settings__preview { display: flex; justify-content: space-between; gap: 16px; max-width: 720px; margin-top: 18px; padding: 16px 20px; border-radius: 10px; background: #f2fffc; color: #0e7a5f; }
+.nexus-settings__preview span { color: #4e5969; font-size: 13px; }
+.nexus-settings__preview[data-dark="true"] { background: #1d2733; color: #e8fffb; }
+.nexus-settings__preview[data-dark="true"] span { color: #c9d4df; }
+.nexus-settings__contract { display: flex; flex-direction: column; gap: 8px; padding: 16px 0; border-bottom: 1px solid #f2f3f5; }
+.nexus-settings__contract:last-child { border-bottom: 0; }
+.nexus-settings__contract code { color: #0e7a5f; }
+.nexus-settings__contract span { color: #86909c; font-size: 13px; }
+@media (max-width: 720px) { .nexus-settings__preview { align-items: flex-start; flex-direction: column; } .nexus-settings__header { align-items: flex-start; flex-direction: column; gap: 12px; } }

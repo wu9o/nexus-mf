@@ -1,0 +1,29 @@
+.nexus-users { color: #1d2129; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.nexus-users__header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 20px; border-bottom: 1px solid #e5e6eb; }
+.nexus-users__header h1 { margin: 4px 0 0; font-size: 28px; }
+.nexus-users__eyebrow { color: #86909c; font-size: 12px; letter-spacing: .08em; }
+.nexus-users__count { color: #531dab; background: #f5e8ff; padding: 5px 9px; border-radius: 999px; font-size: 12px; }
+.nexus-users__nav { display: flex; gap: 20px; padding: 16px 0 24px; }
+.nexus-users__nav a { color: #4e5969; text-decoration: none; }
+.nexus-users__nav a:hover { color: #722ed1; }
+.nexus-users h2 { margin-top: 0; }
+.nexus-users p { color: #86909c; }
+.nexus-users__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.nexus-users input { width: 220px; border: 1px solid #c9cdd4; border-radius: 6px; padding: 10px 12px; font: inherit; }
+.nexus-users__table { overflow: hidden; border: 1px solid #e5e6eb; border-radius: 10px; background: #fff; }
+.nexus-users__table-head, .nexus-users__row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; align-items: center; padding: 15px 18px; }
+.nexus-users__table-head { color: #86909c; background: #f7f8fa; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.nexus-users__row { border-top: 1px solid #f2f3f5; }
+.nexus-users__row strong, .nexus-users__row small { display: block; }
+.nexus-users__row small { margin-top: 4px; color: #86909c; }
+.nexus-users__status { justify-self: start; padding: 4px 8px; border-radius: 999px; font-size: 12px; }
+.nexus-users__status--active { color: #008a29; background: #e8ffea; }
+.nexus-users__status--invited { color: #ad4e00; background: #fff7e8; }
+.nexus-users__status--suspended { color: #d32029; background: #ffece8; }
+.nexus-users__empty { padding: 20px; margin: 0; }
+.nexus-users__details { max-width: 760px; }
+.nexus-users__details p { line-height: 1.6; }
+.nexus-users__permission-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+.nexus-users__permission-grid article { display: flex; flex-direction: column; gap: 10px; padding: 18px; border: 1px solid #e5e6eb; border-radius: 10px; background: #fff; }
+.nexus-users__permission-grid span { color: #86909c; font-size: 13px; line-height: 1.5; }
+@media (max-width: 720px) { .nexus-users__toolbar, .nexus-users__header { align-items: flex-start; flex-direction: column; } .nexus-users input { width: 100%; box-sizing: border-box; } .nexus-users__permission-grid { grid-template-columns: 1fr; } }

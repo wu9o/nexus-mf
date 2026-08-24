@@ -6,7 +6,7 @@
   "scripts": {
     "start": "pnpm --parallel --stream -r start",
     "build": "pnpm --parallel --stream -r build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "pnpm -r --if-present test -- --run"
   },
   "repository": {
     "type": "git",

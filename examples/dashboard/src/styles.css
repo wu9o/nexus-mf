@@ -1,0 +1,43 @@
+.nexus-dashboard {
+  color: #1d2129;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.nexus-dashboard__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e6eb;
+}
+
+.nexus-dashboard__header h1,
+.nexus-dashboard h2,
+.nexus-dashboard p { margin-top: 0; }
+.nexus-dashboard__header h1 { margin-bottom: 0; font-size: 28px; }
+.nexus-dashboard__eyebrow { color: #86909c; font-size: 12px; letter-spacing: .08em; }
+.nexus-dashboard__version { color: #165dff; background: #e8f3ff; padding: 5px 9px; border-radius: 999px; font-size: 12px; }
+.nexus-dashboard__nav { display: flex; gap: 20px; padding: 16px 0 24px; }
+.nexus-dashboard__nav a { color: #4e5969; text-decoration: none; }
+.nexus-dashboard__nav a.active, .nexus-dashboard__nav a:hover { color: #165dff; }
+.nexus-dashboard__toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.nexus-dashboard__toolbar h2 { margin-bottom: 6px; }
+.nexus-dashboard__toolbar p { color: #86909c; }
+.nexus-dashboard button { border: 0; border-radius: 6px; padding: 9px 14px; color: white; background: #165dff; cursor: pointer; }
+.nexus-dashboard__metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0 28px; }
+.nexus-dashboard__metric, .nexus-dashboard__activity, .nexus-dashboard__details { padding: 18px; border: 1px solid #e5e6eb; border-radius: 10px; background: #fff; }
+.nexus-dashboard__metric { display: flex; flex-direction: column; gap: 8px; }
+.nexus-dashboard__metric span { color: #86909c; font-size: 13px; }
+.nexus-dashboard__metric strong { font-size: 25px; }
+.nexus-dashboard__metric em { color: #00b42a; font-size: 12px; font-style: normal; }
+.nexus-dashboard__activity-row { display: flex; align-items: center; gap: 10px; padding: 13px 0; border-top: 1px solid #f2f3f5; }
+.nexus-dashboard__activity-row time { margin-left: auto; color: #86909c; font-size: 12px; }
+.nexus-dashboard__dot { width: 8px; height: 8px; border-radius: 50%; background: #00b42a; }
+.nexus-dashboard__details { max-width: 680px; }
+.nexus-dashboard__details p { color: #4e5969; line-height: 1.6; }
+.nexus-dashboard__details dl { margin: 24px 0; }
+.nexus-dashboard__details dl > div { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f2f3f5; }
+.nexus-dashboard__details dt { color: #86909c; }
+.nexus-dashboard__details dd { margin: 0; font-family: ui-monospace, monospace; }
+.nexus-dashboard__healthy { color: #00b42a; }
+@media (max-width: 720px) { .nexus-dashboard__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .nexus-dashboard__toolbar { align-items: flex-start; flex-direction: column; } }
