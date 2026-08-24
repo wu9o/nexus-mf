@@ -10,7 +10,7 @@
 
 [English](./README.md) | **中文**
 
-**使用手册:** [中文使用手册](./docs/USAGE.zh-CN.md) | [English Usage Guide](./docs/USAGE.md)
+**文档:** [中文使用手册](./docs/USAGE.zh-CN.md) | [English Usage Guide](./docs/USAGE.md) | [发布策略](./docs/RELEASE.md)
 
 ### 核心特性
 
