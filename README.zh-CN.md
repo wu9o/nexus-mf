@@ -10,6 +10,8 @@
 
 [English](./README.md) | **中文**
 
+**使用手册:** [中文使用手册](./docs/USAGE.zh-CN.md) | [English Usage Guide](./docs/USAGE.md)
+
 ### 核心特性
 
 - **可复用的核心包**: 核心的沙箱和模块联邦逻辑被封装在 `@nexus-mf/core` 包中，让您可以轻松地将其集成到自己的项目中。
@@ -17,6 +19,7 @@
 - **模块联邦 (Module Federation)**: 利用 Webpack 5 的模块联邦技术，在运行时动态加载微应用。
 - **Monorepo 架构**: 使用 `pnpm` workspaces 进行管理，为核心包和示例应用提供了流畅的开发体验。
 - **集中化配置**: 通过一个专门的 `@mf/shared-config` 包来管理共享配置，确保了项目的一致性和可维护性。
+- **运行时 Manifest 校验**: Manifest 使用版本化契约，并支持 HTTPS、远程来源白名单和 `remoteEntry.js` 的 Subresource Integrity。
 - **开发者友好**: 提供预设的 CI/CD 工作流以便于部署，并包含了处理单页应用（SPA）深层链接的清晰解决方案。
 
 ### 架构概览
@@ -58,7 +61,7 @@ NexusMF 的架构由一个 **核心框架 (`@nexus-mf/core`)** 和多个 **示�
 
 ### 关键实现细节
 
-#### 1. 沙箱化的微前端加载器 (`packages/core/src/SandboxMFE.js`)
+#### 1. 沙箱化的微前端加载器 (`packages/core/src/SandboxMFE.tsx`)
 
 这是框架的核心组件。`SandboxMFE` 组件并非直接挂载远程组件，而是执行以下步骤：
 1. 使用 `@garfish/browser-vm` 创建一个新的沙箱实例。
@@ -70,7 +73,36 @@ NexusMF 的架构由一个 **核心框架 (`@nexus-mf/core`)** 和多个 **示�
 
 为了优化性能并确保稳定性，关键的库在主应用和所有微应用之间共享。这在 `ModuleFederationPlugin` 的 `shared` 选项中进行配置。
 
-#### 3. GitHub Pages 深层链接支持
+#### 3. 版本回滚与资源生命周期
+
+`SandboxMFE` 支持为远程入口提供版本和有序的回滚列表。主版本加载、初始化或获取暴露模块失败时，会自动尝试下一个版本：
+
+```tsx
+<SandboxMFE
+  name="dashboard"
+  url="https://cdn.example.com/dashboard/1.2.0/remoteEntry.js"
+  version="1.2.0"
+  fallbackVersions={[{
+    version: '1.1.0',
+    url: 'https://cdn.example.com/dashboard/1.1.0/remoteEntry.js',
+  }]}
+  onFallback={({ failed, next }) => console.warn('rollback', failed.version, next.version)}
+/>
+```
+
+远程运行时新增的 `style` 和 stylesheet 节点会带上 Nexus MF 标记，并在最后一个实例卸载时清理；宿主应用已有的样式不会被移除。
+
+#### 4. 运行时 Remote Manifest
+
+主应用启动时会先加载并校验 `remote-manifest.json`。Manifest 使用 `schemaVersion: 1` 和 `remotes` 包装结构，远程入口可以声明 `integrity`，主应用还可以限制远程入口必须来自受信任的 HTTPS 来源。
+
+Dashboard 的“演示版本回滚”入口会故意让主版本加载失败，再自动切换到回退入口，用于验证回滚链路。
+
+#### 5. 类型化微应用通信
+
+`@mf/shared-config` 提供带 `id`、`timestamp`、`source`、`type` 和 `payload` 的通用消息协议，并支持按来源和事件类型订阅。已知事件的 payload 类型定义在 `packages/shared-config/index.d.ts` 中。
+
+#### 6. GitHub Pages 深层链接支持
 
 GitHub Pages 是一个纯静态托管服务，原生不支持单页应用（SPA）的路由。为了解决直接访问深层链接（例如 `/mf/dashboard/details`）时出现 404 错误的问题，我们采用了一个简单而高效的技巧：
 - GitHub Actions 的部署工作流 (`.github/workflows/deploy.yml`) 会将根目录的 `index.html` 复制一份并命名为 `404.html`。

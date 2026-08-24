@@ -10,6 +10,8 @@ A practical sandbox framework for building and experimenting with **Webpack Modu
 
 **English** | [中文](./README.zh-CN.md)
 
+**Usage:** [English Usage Guide](./docs/USAGE.md) | [中文使用手册](./docs/USAGE.zh-CN.md)
+
 ### Core Features
 
 - **Reusable Core Package**: The core sandboxing and Module Federation logic is encapsulated in the `@nexus-mf/core` package, allowing you to easily integrate it into your own projects.
@@ -17,6 +19,7 @@ A practical sandbox framework for building and experimenting with **Webpack Modu
 - **Module Federation**: Utilizes Webpack 5's Module Federation for dynamic, at-runtime loading of micro-apps.
 - **Monorepo Architecture**: Managed with `pnpm` workspaces, providing a streamlined development experience for both the core package and the examples.
 - **Centralized Configuration**: A dedicated `@mf/shared-config` package manages shared configurations for consistency and easy maintenance.
+- **Runtime Manifest Validation**: The manifest uses a versioned contract and supports HTTPS, remote-origin allowlists, and Subresource Integrity for `remoteEntry.js`.
 - **Developer-Friendly**: Comes with a pre-configured CI/CD workflow for easy deployment and a clear solution for handling deep linking in SPA environments.
 
 ### Architecture Overview
@@ -58,7 +61,7 @@ NexusMF's architecture consists of a **Core Framework (`@nexus-mf/core`)** and m
 
 ### Key Implementation Details
 
-#### 1. Sandboxed MFE Loader (`packages/core/src/SandboxMFE.js`)
+#### 1. Sandboxed MFE Loader (`packages/core/src/SandboxMFE.tsx`)
 
 This is the core component of the framework. Instead of directly mounting a remote component, the `SandboxMFE` component performs the following steps:
 1. Creates a new sandbox instance using `@garfish/browser-vm`.
@@ -70,7 +73,36 @@ This is the core component of the framework. Instead of directly mounting a remo
 
 To optimize performance and ensure stability, critical libraries are shared between the shell application and all micro-apps. This is configured in the `ModuleFederationPlugin`'s `shared` option.
 
-#### 3. Deep Linking on GitHub Pages
+#### 3. Version rollback and resource lifecycle
+
+`SandboxMFE` accepts a primary remote version and an ordered fallback list. If loading, initialization, or resolving the exposed module fails, the next version is tried automatically:
+
+```tsx
+<SandboxMFE
+  name="dashboard"
+  url="https://cdn.example.com/dashboard/1.2.0/remoteEntry.js"
+  version="1.2.0"
+  fallbackVersions={[{
+    version: '1.1.0',
+    url: 'https://cdn.example.com/dashboard/1.1.0/remoteEntry.js',
+  }]}
+  onFallback={({ failed, next }) => console.warn('rollback', failed.version, next.version)}
+/>
+```
+
+Remote-inserted `style` and stylesheet nodes receive a Nexus MF marker and are removed when the final mounted instance releases them. Host-owned styles are never removed.
+
+#### 4. Runtime Remote Manifest
+
+The host loads and validates `remote-manifest.json` before rendering. The manifest uses a `schemaVersion: 1` and `remotes` wrapper, remote entries may declare `integrity`, and the host can restrict remote entries to trusted HTTPS origins.
+
+The Dashboard's “Demo version rollback” link intentionally fails the primary entry and switches to the fallback entry so the rollback path can be verified.
+
+#### 5. Typed micro-app communication
+
+`@mf/shared-config` provides a common message protocol with `id`, `timestamp`, `source`, `type`, and `payload`, plus source/type subscription filters. Payload declarations for known events live in `packages/shared-config/index.d.ts`.
+
+#### 6. Deep Linking on GitHub Pages
 
 GitHub Pages is a static hosting service and does not natively support SPA routing. To solve 404 errors when accessing deep links directly (e.g., `/mf/dashboard/details`), we use a simple and effective trick:
 - The GitHub Actions deployment workflow (`.github/workflows/deploy.yml`) copies the root `index.html` to `404.html`.
