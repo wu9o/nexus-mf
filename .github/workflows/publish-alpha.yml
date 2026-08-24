@@ -1,0 +1,56 @@
+name: Publish Alpha Snapshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: npm dist-tag for the snapshot
+        required: true
+        default: alpha
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-alpha-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build and publish alpha snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout selected ref
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create snapshot version
+        run: pnpm changeset version --snapshot "${{ inputs.tag }}"
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build all packages
+        run: pnpm -r build
+
+      - name: Publish snapshot
+        run: pnpm changeset publish --tag "${{ inputs.tag }}" --no-git-tag
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
