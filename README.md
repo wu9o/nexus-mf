@@ -4,13 +4,13 @@ A practical sandbox framework for building and experimenting with **Webpack Modu
 
 **Keywords:** `webpack`, `webpack5`, `module-federation`, `mf`, `sandbox`, `micro-frontend`, `react`
 
-**[>> Live Demo <<](https://wu9o.github.io/nexus-mf/)**
+**[>> Live Demo <<](https://wu9o.github.io/nexus-mf/)** · **[>> Framework Handbook <<](https://wu9o.github.io/nexus-mf/docs/)**
 
 ---
 
 **English** | [中文](./README.zh-CN.md)
 
-**Docs:** [English Usage Guide](./docs/USAGE.md) | [中文使用手册](./docs/USAGE.zh-CN.md) | [Release Strategy](./docs/RELEASE.md)
+**Docs:** [Online Framework Handbook](https://wu9o.github.io/nexus-mf/docs/) | [English Usage Guide](./docs/USAGE.md) | [中文使用手册](./docs/USAGE.zh-CN.md) | [Release Strategy](./docs/RELEASE.md)
 
 ### Core Features
 

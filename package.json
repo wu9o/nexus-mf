@@ -6,6 +6,8 @@
   "scripts": {
     "start": "pnpm --parallel --stream -r start",
     "build": "pnpm --parallel --stream -r build",
+    "build:docs": "pnpm --filter docs-site build",
+    "preview:docs": "pnpm --filter docs-site preview",
     "test": "pnpm -r --if-present test -- --run"
   },
   "repository": {

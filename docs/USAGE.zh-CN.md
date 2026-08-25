@@ -1,5 +1,7 @@
 # Nexus MF 使用手册
 
+本手册的在线版本已部署到 [Nexus MF 在线使用手册](https://wu9o.github.io/nexus-mf/docs/)。本文保留为仓库内的快速参考，完整的分章节说明和部署信息以在线手册为准。
+
 本文面向第一次接入 Nexus MF 的开发者，说明如何把 `@nexus-mf/core` 接入一个 React + Webpack 5 Module Federation 主应用。
 
 ## 1. 当前定位

@@ -1,0 +1,72 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f7f9fc;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: #f7f9fc; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.nexus-docs-header {
+  min-height: 64px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5eaf2;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nexus-docs-brand { color: #172033; font-weight: 750; letter-spacing: -0.02em; }
+.nexus-docs-nav { display: flex; flex-wrap: wrap; gap: 18px; font-size: 14px; }
+.nexus-docs-nav a { color: #556176; }
+.nexus-docs-body { display: flex; max-width: 1280px; margin: 0 auto; min-height: calc(100vh - 64px); }
+.nexus-docs-sidebar { width: 250px; flex: 0 0 250px; padding: 32px 18px 64px 28px; border-right: 1px solid #e5eaf2; }
+.nexus-docs-sidebar section + section { margin-top: 26px; }
+.nexus-docs-sidebar h2 { margin: 0 0 8px; font-size: 13px; color: #8b96a8; text-transform: uppercase; letter-spacing: 0.08em; }
+.nexus-docs-sidebar a { display: block; padding: 7px 10px; color: #4b5870; border-radius: 7px; font-size: 14px; }
+.nexus-docs-sidebar a:hover { background: #eaf1ff; color: #1d4ed8; text-decoration: none; }
+.nexus-docs-content { width: min(860px, 100%); padding: 48px 56px 80px; margin: 0 auto; }
+.nexus-docs-content h1 { margin-top: 0; color: #172033; font-size: 40px; letter-spacing: -0.04em; }
+.nexus-docs-content h2 { margin-top: 42px; color: #172033; }
+.nexus-docs-content p, .nexus-docs-content li { color: #4b5870; line-height: 1.8; }
+.nexus-docs-content code { background: #eef2f8; border-radius: 4px; padding: 2px 5px; }
+.nexus-docs-content pre { padding: 18px; overflow: auto; background: #172033; border-radius: 10px; }
+.nexus-docs-content pre code { padding: 0; color: #e5edf9; background: transparent; }
+.nexus-docs-content table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+.nexus-docs-content th, .nexus-docs-content td { padding: 10px 12px; border: 1px solid #e1e7f0; text-align: left; }
+
+.docs-home { max-width: 100%; }
+.docs-home-hero { padding: 28px 0 32px; }
+.docs-home-eyebrow, .docs-home-section-label { color: #2563eb !important; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.docs-home-hero h1 { max-width: 720px; margin: 12px 0; font-size: clamp(36px, 6vw, 60px); line-height: 1.08; }
+.docs-home-lead { max-width: 720px; font-size: 18px; }
+.docs-home-actions { display: flex; gap: 12px; margin-top: 28px; }
+.docs-home-actions a { padding: 10px 16px; border-radius: 8px; background: #2563eb; color: #fff; font-weight: 650; }
+.docs-home-actions a + a { background: #eaf1ff; color: #1d4ed8; }
+.docs-home-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.docs-home-card { min-height: 150px; padding: 20px; display: flex; flex-direction: column; gap: 10px; background: #fff; border: 1px solid #e5eaf2; border-radius: 12px; box-shadow: 0 8px 24px rgb(25 48 90 / 5%); }
+.docs-home-card:hover { border-color: #9bbaff; text-decoration: none; transform: translateY(-2px); }
+.docs-home-card span { color: #2563eb; font-weight: 700; }
+.docs-home-card strong { color: #172033; font-size: 18px; }
+.docs-home-card small { color: #65728a; line-height: 1.6; }
+.docs-home-system { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 48px; padding: 28px; background: #172033; border-radius: 14px; }
+.docs-home-system h2, .docs-home-system p { color: #fff !important; }
+.docs-home-flow { display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 8px; color: #d9e5ff; font-weight: 650; }
+.docs-home-flow span { padding: 8px 10px; border: 1px solid #536a97; border-radius: 7px; }
+.docs-home-flow .docs-home-flow-arrow { border: 0; }
+
+@media (max-width: 800px) {
+  .nexus-docs-header { padding: 0 18px; align-items: flex-start; flex-direction: column; padding-top: 16px; padding-bottom: 16px; }
+  .nexus-docs-body { display: block; }
+  .nexus-docs-sidebar { width: auto; border-right: 0; border-bottom: 1px solid #e5eaf2; padding: 20px 18px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .nexus-docs-sidebar section + section { margin-top: 0; }
+  .nexus-docs-content { padding: 32px 20px 60px; }
+  .docs-home-grid, .docs-home-system { grid-template-columns: 1fr; }
+}

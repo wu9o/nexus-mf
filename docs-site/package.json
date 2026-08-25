@@ -1,0 +1,18 @@
+{
+  "name": "docs-site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Nexus MF 中文框架使用手册",
+  "scripts": {
+    "build": "node ./build.mjs",
+    "dev": "cogita dev",
+    "preview": "cogita preview"
+  },
+  "dependencies": {
+    "@cogita/cli": "^0.1.16",
+    "@cogita/core": "^0.12.0",
+    "@rspress/runtime": "^1.45.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  }
+}
