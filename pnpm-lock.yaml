@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@cogita/theme-docs@0.2.0':
-    hash: dcc42462f5673982a258d95972462d997bd3ac24b67c2609358ec83e71dbbd94
+    hash: 3e83cafd9d76c64d41efc0255f8a4dff874b13e6f620c34c3b4330fef7b24faa
     path: patches/@cogita__theme-docs@0.2.0.patch
 
 importers:
@@ -33,7 +33,7 @@ importers:
         version: 0.12.0(webpack@5.101.0)
       '@cogita/theme-docs':
         specifier: ^0.2.0
-        version: 0.2.0(patch_hash=dcc42462f5673982a258d95972462d997bd3ac24b67c2609358ec83e71dbbd94)(@rspress/runtime@1.47.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        version: 0.2.0(patch_hash=3e83cafd9d76c64d41efc0255f8a4dff874b13e6f620c34c3b4330fef7b24faa)(@rspress/runtime@1.47.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@rspress/runtime':
         specifier: ^1.45.1
         version: 1.47.1
@@ -8441,7 +8441,7 @@ snapshots:
     dependencies:
       '@rspress/core': 1.47.2(webpack@5.101.0)
 
-  '@cogita/theme-docs@0.2.0(patch_hash=dcc42462f5673982a258d95972462d997bd3ac24b67c2609358ec83e71dbbd94)(@rspress/runtime@1.47.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@cogita/theme-docs@0.2.0(patch_hash=3e83cafd9d76c64d41efc0255f8a4dff874b13e6f620c34c3b4330fef7b24faa)(@rspress/runtime@1.47.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@rspress/runtime': 1.47.1
       react: 19.2.8

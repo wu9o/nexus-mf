@@ -314,3 +314,16 @@ index d08f6d0c2beaec3cb671fb0297d4107213a26cde..4e3797fb3fa5b9c6a79f69d748fdd667
                      })
                  ]
              })
+diff --git a/dist/theme.css b/dist/theme.css
+index fe5979428be42f95ed94d4912c6c48540e7e1f52..c224dbcfd51a5dc4d89e1b03584157292968a37e 100644
+--- a/dist/theme.css
++++ b/dist/theme.css
+@@ -170,7 +170,7 @@ body {
+   text-align: center;
+ }
+ 
+-.docs-home-flow span {
++.docs-home-flow > span:not(.docs-home-flow-arrow) {
+   padding: 17px 10px;
+   border: 1px solid var(--cogita-docs-border);
+   border-radius: 12px;
