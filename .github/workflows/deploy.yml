@@ -61,6 +61,12 @@ jobs:
           name: dist-settings
           path: examples/settings/dist
 
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-docs
+          path: docs-site/doc_build
+
   assemble:
     needs: build
     runs-on: ubuntu-latest
@@ -77,6 +83,8 @@ jobs:
           cp -r dists/dist-dashboard/* _site/dashboard/
           cp -r dists/dist-user-management/* _site/user-management/
           cp -r dists/dist-settings/* _site/settings/
+          mkdir -p _site/docs
+          cp -r dists/dist-docs/* _site/docs/
           
           # Copy index.html to 404.html to handle SPA routing on GitHub Pages
           cp _site/index.html _site/404.html

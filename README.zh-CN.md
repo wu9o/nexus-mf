@@ -4,13 +4,13 @@
 
 **关键词:** `webpack`, `webpack5`, `module-federation`, `mf`, `sandbox`, `微前端`, `micro-frontend`, `react`
 
-**[>> 在线演示 <<](https://wu9o.github.io/nexus-mf/)**
+**[>> 在线演示 <<](https://wu9o.github.io/nexus-mf/)** · **[>> 在线使用手册 <<](https://wu9o.github.io/nexus-mf/docs/)**
 
 ---
 
 [English](./README.md) | **中文**
 
-**文档:** [中文使用手册](./docs/USAGE.zh-CN.md) | [English Usage Guide](./docs/USAGE.md) | [发布策略](./docs/RELEASE.md)
+**文档:** [在线使用手册](https://wu9o.github.io/nexus-mf/docs/) | [中文使用手册](./docs/USAGE.zh-CN.md) | [English Usage Guide](./docs/USAGE.md) | [发布策略](./docs/RELEASE.md)
 
 ### 核心特性
 
