@@ -20,7 +20,7 @@
 
 ### 合并到 main 后
 
-`.github/workflows/deploy.yml` 负责构建并部署示例站点。
+`.github/workflows/deploy.yml` 负责构建并部署示例站点和框架使用手册。示例位于站点根路径，Cogita 生成的手册位于 `/nexus-mf/docs/`。
 
 `.github/workflows/release.yml` 负责读取 `.changeset/*.md`：
 
@@ -52,3 +52,14 @@
 - 不要在 `develop` 上积累长期未同步的发布提交。
 - 同一时间只允许一个 Release Workflow 运行。
 - `NPM_TOKEN` 必须配置在 GitHub Actions Secrets 中；没有该 Secret 时只会在发布步骤失败，不应影响 PR CI。
+
+## 文档站点
+
+手册使用 Cogita Core/CLI 和站点侧文档主题构建，内容位于 `docs-site/content/`，本地命令为：
+
+```bash
+pnpm build:docs
+pnpm preview:docs
+```
+
+修改框架公共 API 时，应同步更新 `docs-site/content/` 和根目录 README 中的在线手册链接。

@@ -1,5 +1,7 @@
 # Nexus MF Usage Guide
 
+The online version of this guide is available at [Nexus MF Framework Handbook](https://wu9o.github.io/nexus-mf/docs/). This file remains a repository-local quick reference; use the online handbook for the complete, sectioned documentation.
+
 This guide explains how to integrate `@nexus-mf/core` into a React + Webpack 5 Module Federation host.
 
 ## Positioning
