@@ -55,8 +55,8 @@ const sidebarGroups = [
 
 function Layout() {
   // 延迟加载 Rspress runtime，避免 Cogita 在读取站点配置时触发 virtual-* 浏览器模块。
-  const { Content, usePageData } = require('@rspress/runtime');
-  usePageData();
+  const { Content, Helmet, usePageData } = require('@rspress/runtime');
+  const pageData = usePageData();
   const base = '/nexus-mf/docs';
   const link = (path) => {
     const normalized = path.replace(/^\/+|\/+$/g, '');
@@ -69,6 +69,15 @@ function Layout() {
   return React.createElement(
     'div',
     { className: 'nexus-docs-shell' },
+    React.createElement(
+      Helmet,
+      null,
+      React.createElement('title', null, `${pageData?.page?.title || 'Nexus MF 使用手册'} - Nexus MF`),
+      React.createElement('meta', {
+        name: 'description',
+        content: 'Nexus MF React + Webpack Module Federation 沙箱微前端框架使用手册。',
+      }),
+    ),
     React.createElement(
       'header',
       { className: 'nexus-docs-header' },
