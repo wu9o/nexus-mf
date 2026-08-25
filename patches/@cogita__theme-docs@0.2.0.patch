@@ -1,0 +1,316 @@
+diff --git a/dist/layouts/Home.js b/dist/layouts/Home.js
+index d08f6d0c2beaec3cb671fb0297d4107213a26cde..4e3797fb3fa5b9c6a79f69d748fdd66780b2f4d7 100644
+--- a/dist/layouts/Home.js
++++ b/dist/layouts/Home.js
+@@ -1,222 +1,132 @@
+ import { jsx, jsxs } from "react/jsx-runtime";
+-import { normalizeHrefInRuntime, usePageData } from "@rspress/runtime";
++import { normalizeHrefInRuntime, usePageData, withBase } from "@rspress/runtime";
++import runtimeSiteData from "virtual-site-data";
++
++const defaultHome = {
++    lead: "从配置、主题到插件，了解如何用约定优于配置的方式构建可维护的静态站点。",
++    actions: [
++        { text: "开始使用", link: "/getting-started" },
++        { text: "了解架构", link: "/api/architecture-design" }
++    ],
++    cards: [
++        { label: "01", title: "快速开始", description: "从安装、配置到部署，快速构建第一个站点。", link: "/getting-started" },
++        { label: "02", title: "架构设计", description: "掌握 Core、主题和插件的公共接口。", link: "/api/architecture-design" },
++        { label: "03", title: "插件开发", description: "为站点增加构建能力、数据处理和运行时功能。", link: "/plugins/plugin-api-specification" }
++    ],
++    system: {
++        eyebrow: "清晰边界",
++        title: "站点内容与框架能力，各自独立演进。",
++        description: "Cogita 仓库维护可复用的 Core、主题和插件；博客、知识库与项目手册作为独立站点安装这些包。",
++        flow: ["配置", "主题", "插件", "静态输出"]
++    },
++    themes: {
++        eyebrow: "主题选择",
++        title: "同一套框架，适配不同内容形态。",
++        linkText: "查看主题总览 →",
++        link: "/themes",
++        items: [
++            { variant: "docs", label: "DOCS", title: "技术文档主题", description: "适合项目手册、API 文档和知识库。", link: "/themes" },
++            { variant: "lucid", label: "LUCID", title: "内容型博客主题", description: "适合个人博客、文章列表和归档浏览。", link: "https://github.com/wu9o/cogita/tree/main/themes/lucid" },
++            { variant: "editorial", label: "EDITORIAL", title: "编辑感主题", description: "适合强调阅读节奏和内容呈现的站点。", link: "https://github.com/wu9o/cogita/tree/main/themes/editorial" }
++        ]
++    }
++};
++
+ const HomeLayout = ()=>{
+-    var _pageData_siteData, _pageData_siteData1, _pageData_siteData2;
+     const pageData = usePageData();
+-    const base = (null == pageData ? void 0 : null == (_pageData_siteData = pageData.siteData) ? void 0 : _pageData_siteData.base) || '';
+-    const title = (null == pageData ? void 0 : null == (_pageData_siteData1 = pageData.siteData) ? void 0 : _pageData_siteData1.title) || 'Cogita';
+-    const description = (null == pageData ? void 0 : null == (_pageData_siteData2 = pageData.siteData) ? void 0 : _pageData_siteData2.description) || "\u4E3B\u9898\u9A71\u52A8\u7684\u9759\u6001\u7AD9\u70B9\u6846\u67B6\u3002";
+-    const link = (path)=>normalizeHrefInRuntime(`${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`);
++    const siteData = pageData?.siteData?.themeConfig?.home ? pageData.siteData : runtimeSiteData;
++    const configuredHome = siteData.themeConfig?.home || {};
++    const title = configuredHome.eyebrow || `${siteData.title || "Cogita"} · 技术文档`;
++    const description = configuredHome.title || siteData.description || "主题驱动的静态站点框架。";
++    const home = {
++        ...defaultHome,
++        ...configuredHome,
++        actions: configuredHome.actions || defaultHome.actions,
++        cards: configuredHome.cards || defaultHome.cards,
++        system: { ...defaultHome.system, ...configuredHome.system },
++        themes: { ...defaultHome.themes, ...configuredHome.themes, items: configuredHome.themes?.items || defaultHome.themes.items }
++    };
++    const link = (path)=>{
++        if (/^(?:https?:|mailto:|#)/.test(path)) return path;
++        return withBase(normalizeHrefInRuntime(path));
++    };
+     return /*#__PURE__*/ jsxs("main", {
+         className: "docs-home",
+         children: [
+             /*#__PURE__*/ jsxs("section", {
+                 className: "docs-home-hero",
+                 children: [
+-                    /*#__PURE__*/ jsxs("p", {
+-                        className: "docs-home-eyebrow",
+-                        children: [
+-                            title,
+-                            " \xb7 \u6280\u672F\u6587\u6863"
+-                        ]
+-                    }),
+-                    /*#__PURE__*/ jsx("h1", {
+-                        children: description
+-                    }),
+-                    /*#__PURE__*/ jsx("p", {
+-                        className: "docs-home-lead",
+-                        children: "\u4ECE\u914D\u7F6E\u3001\u4E3B\u9898\u5230\u63D2\u4EF6\uFF0C\u4E86\u89E3\u5982\u4F55\u7528\u7EA6\u5B9A\u4F18\u4E8E\u914D\u7F6E\u7684\u65B9\u5F0F\u6784\u5EFA\u53EF\u7EF4\u62A4\u7684\u9759\u6001\u7AD9\u70B9\u3002"
+-                    }),
+-                    /*#__PURE__*/ jsxs("div", {
++                    /*#__PURE__*/ jsx("p", { className: "docs-home-eyebrow", children: title }),
++                    /*#__PURE__*/ jsx("h1", { children: description }),
++                    /*#__PURE__*/ jsx("p", { className: "docs-home-lead", children: home.lead }),
++                    /*#__PURE__*/ jsx("div", {
+                         className: "docs-home-actions",
+-                        children: [
+-                            /*#__PURE__*/ jsx("a", {
+-                                href: link('/getting-started'),
+-                                children: "\u5F00\u59CB\u4F7F\u7528"
+-                            }),
+-                            /*#__PURE__*/ jsx("a", {
+-                                href: link('/api/architecture-design'),
+-                                children: "\u4E86\u89E3\u67B6\u6784"
+-                            })
+-                        ]
++                        children: home.actions.map((action)=>(/*#__PURE__*/ jsx("a", { href: link(action.link), children: action.text }, action.link)))
+                     })
+                 ]
+             }),
+-            /*#__PURE__*/ jsxs("section", {
++            /*#__PURE__*/ jsx("section", {
+                 className: "docs-home-grid",
+-                "aria-label": "\u6587\u6863\u5165\u53E3",
+-                children: [
+-                    /*#__PURE__*/ jsxs("a", {
+-                        href: link('/getting-started'),
+-                        className: "docs-home-card",
+-                        children: [
+-                            /*#__PURE__*/ jsx("span", {
+-                                children: "01"
+-                            }),
+-                            /*#__PURE__*/ jsx("strong", {
+-                                children: "\u5FEB\u901F\u5F00\u59CB"
+-                            }),
+-                            /*#__PURE__*/ jsx("small", {
+-                                children: "\u4ECE\u5B89\u88C5\u3001\u914D\u7F6E\u5230\u90E8\u7F72\uFF0C\u5FEB\u901F\u6784\u5EFA\u7B2C\u4E00\u4E2A\u7AD9\u70B9\u3002"
+-                            })
+-                        ]
+-                    }),
+-                    /*#__PURE__*/ jsxs("a", {
+-                        href: link('/api/architecture-design'),
+-                        className: "docs-home-card",
+-                        children: [
+-                            /*#__PURE__*/ jsx("span", {
+-                                children: "02"
+-                            }),
+-                            /*#__PURE__*/ jsx("strong", {
+-                                children: "\u67B6\u6784\u8BBE\u8BA1"
+-                            }),
+-                            /*#__PURE__*/ jsx("small", {
+-                                children: "\u638C\u63E1 Core\u3001\u4E3B\u9898\u548C\u63D2\u4EF6\u7684\u516C\u5171\u63A5\u53E3\u3002"
+-                            })
+-                        ]
+-                    }),
+-                    /*#__PURE__*/ jsxs("a", {
+-                        href: link('/plugins/plugin-api-specification'),
+-                        className: "docs-home-card",
+-                        children: [
+-                            /*#__PURE__*/ jsx("span", {
+-                                children: "03"
+-                            }),
+-                            /*#__PURE__*/ jsx("strong", {
+-                                children: "\u63D2\u4EF6\u5F00\u53D1"
+-                            }),
+-                            /*#__PURE__*/ jsx("small", {
+-                                children: "\u4E3A\u7AD9\u70B9\u589E\u52A0\u6784\u5EFA\u80FD\u529B\u3001\u6570\u636E\u5904\u7406\u548C\u8FD0\u884C\u65F6\u529F\u80FD\u3002"
+-                            })
+-                        ]
+-                    })
+-                ]
++                "aria-label": "文档入口",
++                children: home.cards.map((card)=>(/*#__PURE__*/ jsxs("a", {
++                    href: link(card.link),
++                    className: "docs-home-card",
++                    children: [
++                        /*#__PURE__*/ jsx("span", { children: card.label }),
++                        /*#__PURE__*/ jsx("strong", { children: card.title }),
++                        /*#__PURE__*/ jsx("small", { children: card.description })
++                    ]
++                }, card.link)))
+             }),
+             /*#__PURE__*/ jsxs("section", {
+                 className: "docs-home-system",
+-                "aria-label": "\u6846\u67B6\u80FD\u529B",
++                "aria-label": "框架能力",
+                 children: [
+                     /*#__PURE__*/ jsxs("div", {
+                         className: "docs-home-system-copy",
+                         children: [
+-                            /*#__PURE__*/ jsx("p", {
+-                                className: "docs-home-section-label",
+-                                children: "\u6E05\u6670\u8FB9\u754C"
+-                            }),
+-                            /*#__PURE__*/ jsx("h2", {
+-                                children: "\u7AD9\u70B9\u5185\u5BB9\u4E0E\u6846\u67B6\u80FD\u529B\uFF0C\u5404\u81EA\u72EC\u7ACB\u6F14\u8FDB\u3002"
+-                            }),
+-                            /*#__PURE__*/ jsx("p", {
+-                                children: "Cogita \u4ED3\u5E93\u7EF4\u62A4\u53EF\u590D\u7528\u7684 Core\u3001\u4E3B\u9898\u548C\u63D2\u4EF6\uFF1B\u535A\u5BA2\u3001\u77E5\u8BC6\u5E93\u4E0E\u9879\u76EE\u624B\u518C\u4F5C\u4E3A\u72EC\u7ACB\u7AD9\u70B9\u5B89\u88C5\u8FD9\u4E9B\u5305\u3002"
+-                            })
++                            /*#__PURE__*/ jsx("p", { className: "docs-home-section-label", children: home.system.eyebrow }),
++                            /*#__PURE__*/ jsx("h2", { children: home.system.title }),
++                            /*#__PURE__*/ jsx("p", { children: home.system.description })
+                         ]
+                     }),
+-                    /*#__PURE__*/ jsxs("div", {
++                    /*#__PURE__*/ jsx("div", {
+                         className: "docs-home-flow",
+-                        "aria-label": "\u6784\u5EFA\u6D41\u7A0B",
+-                        children: [
+-                            /*#__PURE__*/ jsx("span", {
+-                                children: "\u914D\u7F6E"
+-                            }),
+-                            /*#__PURE__*/ jsx("span", {
+-                                className: "docs-home-flow-arrow",
+-                                children: "\u2192"
+-                            }),
+-                            /*#__PURE__*/ jsx("span", {
+-                                children: "\u4E3B\u9898"
+-                            }),
+-                            /*#__PURE__*/ jsx("span", {
+-                                className: "docs-home-flow-arrow",
+-                                children: "\u2192"
+-                            }),
+-                            /*#__PURE__*/ jsx("span", {
+-                                children: "\u63D2\u4EF6"
+-                            }),
+-                            /*#__PURE__*/ jsx("span", {
+-                                className: "docs-home-flow-arrow",
+-                                children: "\u2192"
+-                            }),
+-                            /*#__PURE__*/ jsx("span", {
+-                                children: "\u9759\u6001\u8F93\u51FA"
+-                            })
+-                        ]
++                        "aria-label": "构建流程",
++                        children: home.system.flow.flatMap((item, index)=>[
++                            /*#__PURE__*/ jsx("span", { children: item }, `item-${index}`),
++                            index < home.system.flow.length - 1 ? /*#__PURE__*/ jsx("span", { className: "docs-home-flow-arrow", children: "→" }, `arrow-${index}`) : null
++                        ])
+                     })
+                 ]
+             }),
+             /*#__PURE__*/ jsxs("section", {
+                 className: "docs-home-themes",
+-                "aria-label": "\u4E3B\u9898\u5C55\u793A",
++                "aria-label": "主题展示",
+                 children: [
+                     /*#__PURE__*/ jsxs("div", {
+                         className: "docs-home-themes-heading",
+                         children: [
+                             /*#__PURE__*/ jsxs("div", {
+                                 children: [
+-                                    /*#__PURE__*/ jsx("p", {
+-                                        className: "docs-home-section-label",
+-                                        children: "\u4E3B\u9898\u9009\u62E9"
+-                                    }),
+-                                    /*#__PURE__*/ jsx("h2", {
+-                                        children: "\u540C\u4E00\u5957\u6846\u67B6\uFF0C\u9002\u914D\u4E0D\u540C\u5185\u5BB9\u5F62\u6001\u3002"
+-                                    })
++                                    /*#__PURE__*/ jsx("p", { className: "docs-home-section-label", children: home.themes.eyebrow }),
++                                    /*#__PURE__*/ jsx("h2", { children: home.themes.title })
+                                 ]
+                             }),
+-                            /*#__PURE__*/ jsx("a", {
+-                                href: link('/themes'),
+-                                children: "\u67E5\u770B\u4E3B\u9898\u603B\u89C8 \u2192"
+-                            })
++                            /*#__PURE__*/ jsx("a", { href: link(home.themes.link), children: home.themes.linkText })
+                         ]
+                     }),
+-                    /*#__PURE__*/ jsxs("div", {
++                    /*#__PURE__*/ jsx("div", {
+                         className: "docs-home-theme-list",
+-                        children: [
+-                            /*#__PURE__*/ jsxs("a", {
+-                                href: link('/themes'),
+-                                className: "docs-home-theme-card docs-home-theme-card-docs",
+-                                children: [
+-                                    /*#__PURE__*/ jsx("span", {
+-                                        children: "DOCS"
+-                                    }),
+-                                    /*#__PURE__*/ jsx("strong", {
+-                                        children: "\u6280\u672F\u6587\u6863\u4E3B\u9898"
+-                                    }),
+-                                    /*#__PURE__*/ jsx("small", {
+-                                        children: "\u9002\u5408\u9879\u76EE\u624B\u518C\u3001API \u6587\u6863\u548C\u77E5\u8BC6\u5E93\u3002"
+-                                    })
+-                                ]
+-                            }),
+-                            /*#__PURE__*/ jsxs("a", {
+-                                href: "https://github.com/wu9o/cogita/tree/main/themes/lucid",
+-                                className: "docs-home-theme-card docs-home-theme-card-lucid",
+-                                children: [
+-                                    /*#__PURE__*/ jsx("span", {
+-                                        children: "LUCID"
+-                                    }),
+-                                    /*#__PURE__*/ jsx("strong", {
+-                                        children: "\u5185\u5BB9\u578B\u535A\u5BA2\u4E3B\u9898"
+-                                    }),
+-                                    /*#__PURE__*/ jsx("small", {
+-                                        children: "\u9002\u5408\u4E2A\u4EBA\u535A\u5BA2\u3001\u6587\u7AE0\u5217\u8868\u548C\u5F52\u6863\u6D4F\u89C8\u3002"
+-                                    })
+-                                ]
+-                            }),
+-                            /*#__PURE__*/ jsxs("a", {
+-                                href: "https://github.com/wu9o/cogita/tree/main/themes/editorial",
+-                                className: "docs-home-theme-card docs-home-theme-card-editorial",
+-                                children: [
+-                                    /*#__PURE__*/ jsx("span", {
+-                                        children: "EDITORIAL"
+-                                    }),
+-                                    /*#__PURE__*/ jsx("strong", {
+-                                        children: "\u7F16\u8F91\u611F\u4E3B\u9898"
+-                                    }),
+-                                    /*#__PURE__*/ jsx("small", {
+-                                        children: "\u9002\u5408\u5F3A\u8C03\u9605\u8BFB\u8282\u594F\u548C\u5185\u5BB9\u5448\u73B0\u7684\u7AD9\u70B9\u3002"
+-                                    })
+-                                ]
+-                            })
+-                        ]
++                        children: home.themes.items.map((item)=>(/*#__PURE__*/ jsxs("a", {
++                            href: link(item.link),
++                            className: `docs-home-theme-card docs-home-theme-card-${item.variant}`,
++                            children: [
++                                /*#__PURE__*/ jsx("span", { children: item.label }),
++                                /*#__PURE__*/ jsx("strong", { children: item.title }),
++                                /*#__PURE__*/ jsx("small", { children: item.description })
++                            ]
++                        }, item.link)))
+                     })
+                 ]
+             })
