@@ -1,6 +1,6 @@
 {
   "name": "@mf/main-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
